@@ -38,7 +38,7 @@ function PutPodaci(call, callback) {
         callback(new Error('Invalid idSenzora'), null);
     } else {
         insertDocument('senzor', call.request);
-        callback(null, {uspesno: 1, poruka: 'dodatje senzor'+ call.request});
+        callback(null, {uspesno: 1, poruka: 'dodat je senzor'+ call.request.device});
     }
 }
 function DeletePodaci(call, callback) {

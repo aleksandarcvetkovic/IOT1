@@ -22,7 +22,7 @@ message Odgovor{
 }
 message SenzorPodaci {
   string vreme = 1;
-  string idSenzora = 2;
+  string device = 2;
   float co = 3;
   float humidity = 4;
   bool light = 5;

@@ -1,6 +1,6 @@
 ﻿namespace RESTServer
 {
-    public class SenzorPodaci
+    public class SenzorPodaciDTO
     {
         private string vreme;
         private string idSenzora;
@@ -11,7 +11,7 @@
         private float smoke;
         private float temp;
 
-        public SenzorPodaci(string vreme, string idSenzora, float co, float humidity, bool light, bool motion, float smoke, float temp)
+        public SenzorPodaciDTO(string vreme, string idSenzora, float co, float humidity, bool light, bool motion, float smoke, float temp)
         {
             this.vreme = vreme;
             this.idSenzora = idSenzora;
