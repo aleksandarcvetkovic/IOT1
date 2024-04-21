@@ -75,7 +75,7 @@ function UpdatePodaci(call, callback) {
 
 // MongoDB
 const { MongoClient } = require('mongodb');
-const uri = 'mongodb://localhost:27017';
+const uri = 'mongodb://mongoumrezi:27017';
 var db;
 const client = new MongoClient(uri);
 

@@ -13,12 +13,12 @@ namespace RESTServer
     {
         
 
-        [HttpGet("GetSensorData{idSenzora}")]
+        [HttpGet("GetSensorData/{idSenzora}")]
         public async Task<ActionResult<SenzorPodaci>> GetAsync(string idSenzora)
         {
             try
             {
-                var channel = GrpcChannel.ForAddress("http://localhost:50051");
+                var channel = GrpcChannel.ForAddress("http://nodejsumrezi:50051");
                 var client = new SenzorSoba.SenzorSobaClient(channel);
                 var reply = await client.GetPodaciAsync(new SenzorID { IdSenzora = idSenzora });
                 Console.WriteLine("Odgovor: " + reply);
@@ -38,7 +38,7 @@ namespace RESTServer
         {
             try
             {
-                var channel = GrpcChannel.ForAddress("http://localhost:50051");
+                var channel = GrpcChannel.ForAddress("http://nodejsumrezi:50051");
                 var client = new SenzorSoba.SenzorSobaClient(channel);
                 var reply = await client.PutPodaciAsync(value);
                 Console.WriteLine("Odgovor: " + reply.Poruka);
@@ -57,7 +57,7 @@ namespace RESTServer
         {
             try
             {
-                var channel = GrpcChannel.ForAddress("http://localhost:50051");
+                var channel = GrpcChannel.ForAddress("http://nodejsumrezi:50051");
                 var client = new SenzorSoba.SenzorSobaClient(channel);
                 var reply = await client.UpdatePodaciAsync(sensor);
                 Console.WriteLine("Odgovor: " + reply.Poruka);
@@ -70,13 +70,13 @@ namespace RESTServer
         }
        
         
-        [HttpDelete("DeleteSensor{id}")]
+        [HttpDelete("DeleteSensor/{id}")]
         public async Task<ActionResult<Odgovor>> DeleteAsync(string id)
         {
 
             try
             {
-                var channel = GrpcChannel.ForAddress("http://localhost:50051");
+                var channel = GrpcChannel.ForAddress("http://nodejsumrezi:50051");
                 var client = new SenzorSoba.SenzorSobaClient(channel);
                 var reply = await client.DeletePodaciAsync(new SenzorID { IdSenzora = id });
                 Console.WriteLine("Odgovor: " + reply.Poruka);
