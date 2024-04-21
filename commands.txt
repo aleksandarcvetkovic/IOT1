@@ -1,19 +1,28 @@
 //Pravljanje sklike za grpc servis
-docker build -t grpc-servis .
+docker build -t grpcservice .
 
 //Pokretanje kontejnera
-docker run -p 50051:50051 grpc-servis
+docker run -p 50051:50051 grpcservice
 
 //Pravljanje sklike za rest servis
 docker build -t restservice .
 
 
-//Bridge network *****Kada se pokrece u bridge mrezi, more se zameniti adresa localhost sa imenom kontejnera u mrezi!
+
+
+//Bridge network ako ne koristimo docker-compose 
+//*****Kada se pokrece u bridge mrezi, more se zameniti adresa localhost sa imenom kontejnera u mrezi!
 
 docker network create mreza 
 
 docker run --name mongoumrezi --network mreza -d mongodb/mongodb-community-server
 
-docker run -p 50051:50051 --name nodejsumrezi --network mreza grpc-servis
+docker run -p 50051:50051 --name nodejsumrezi --network mreza grpcservice
 
 docker run -p 8080:8080 --name aspumrezi --network mreza restservice
+
+//Docker compose
+
+docker-compose up
+
+docker-compose down

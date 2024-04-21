@@ -65,7 +65,7 @@ namespace RESTServer
             }
             catch
             {
-                return NotFound($"Greska prilikom brrisanja senzora: {sensor}");
+                return NotFound($"Greska prilikom promene vrednosti senzora: {sensor}");
             }
         }
        

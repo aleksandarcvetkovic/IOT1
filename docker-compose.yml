@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mongo:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongoumrezi
+    networks:
+      - mreza
+  grpc:
+    image: grpcservice
+    container_name: nodejsumrezi
+    networks:
+      - mreza
+  rest:
+    image: restservice
+    container_name: aspumrezi
+    networks:
+      - mreza
+    ports:
+      - "8080:8080"
+networks:
+  mreza:
