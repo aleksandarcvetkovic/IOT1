@@ -26,7 +26,7 @@ def import_data_from_csv(csv_file_path, collection):
                 'smoke': row['smoke'],
                 'temp': row['temp']
             }
-            if cnt == 5000:
+            if cnt == 5:
                 break
             collection.insert_one(data)
     print("Data imported successfully from CSV to MongoDB!")

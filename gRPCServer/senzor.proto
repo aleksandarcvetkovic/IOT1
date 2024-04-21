@@ -1,0 +1,33 @@
+
+
+syntax = "proto3";
+
+package senzor;
+
+// Interface exported by the server.
+service SenzorSoba {
+
+  rpc GetPodaci(SenzorID) returns (SenzorPodaci) {}
+  rpc PutPodaci(SenzorPodaci) returns (Odgovor) {}
+  rpc DeletePodaci(SenzorID) returns (Odgovor) {}
+  rpc UpdatePodaci(SenzorPodaci) returns (Odgovor) {}
+}
+message SenzorID{
+  string idSenzora = 1;
+}
+
+message Odgovor{
+  bool uspesno = 1;
+  string poruka = 2;
+}
+message SenzorPodaci {
+  string vreme = 1;
+  string idSenzora = 2;
+  float co = 3;
+  float humidity = 4;
+  bool light = 5;
+  bool motion = 6;
+  float smoke = 7;
+  float temp = 8;
+}
+

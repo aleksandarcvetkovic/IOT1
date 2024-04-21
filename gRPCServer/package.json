@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@grpc/grpc-js": "^1.10.6",
+    "mongodb": "^6.5.0"
+  }
+}
