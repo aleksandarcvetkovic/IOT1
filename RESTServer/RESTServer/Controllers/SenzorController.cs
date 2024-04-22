@@ -68,6 +68,7 @@ namespace RESTServer
 
             try
             {
+                Console.WriteLine("DeleteSensorCont");
                 var reply = await SensorService.GetInstance().DeleteData(id);
                 Console.WriteLine("Odgovor: " + reply.Poruka);
                 return Ok(reply);
@@ -79,8 +80,8 @@ namespace RESTServer
 
 
         }
-
-
+        
+        
 
 
     }

@@ -73,6 +73,45 @@ function UpdatePodaci(call, callback) {
   }
 }
 
+function GetMinPodaci(call, callback) {
+  console.log("Primljen zahtev za Min " + call.request.attribute+" idSenzora: "+call.request.idSenzora);
+  findDocumentWithMinAttribute('senzor', call.request.attribute,call.request.idSenzora).then((document) => {
+    if (document) {
+      callback(null, {value:document[call.request.attribute]});
+    } else {
+      callback(new Error('Senzor not found'), null);
+    }
+  });
+}
+
+function GetMaxPodaci(call, callback) {
+  console.log("Primljen zahtev za Max " + call.request.attribute+" idSenzora: "+call.request.idSenzora);
+  findDocumentWithMaxAttribute('senzor',call.request.attribute,call.request.idSenzora).then((document) => {
+    if (document) {
+      callback(null, {value:document[call.request.attribute]});
+    } else {
+      callback(new Error('Senzor not found'), null);
+    }
+  });
+}
+function GetAvgPodaci(call, callback) {
+  console.log("Primljen zahtev za Avg " + call.request.attribute+" idSenzora: "+call.request.idSenzora);
+  findAllDocumentsWithAttribute('senzor', call.request.idSenzora).then((documents) => {
+    if (documents.length > 0) {
+      let sum = 0;
+      documents.forEach((document) => {
+        sum += document[call.request.attribute];
+      });
+      const average = sum / documents.length;
+      callback(null, { value : average });
+    } else {
+      callback(new Error('Senzor not found'), null);
+    }
+  });
+}
+
+
+
 // MongoDB
 const { MongoClient } = require('mongodb');
 const uri = 'mongodb://mongoumrezi:27017';
@@ -132,6 +171,36 @@ async function updateDocument(collectionName, attribute, value, updatedDocument)
     console.error('Error updating document:', error);
   }
 }
+async function findDocumentWithMinAttribute(collectionName, attribute, id) {
+  try {
+    const collection = db.collection(collectionName);
+    const document = await collection.findOne({ device: id }, { sort: { [attribute]: 1 } });
+    console.log('Document with minimum'+attribute+ " is: "+ document);
+    return document;
+  } catch (error) {
+    console.error('Error finding document with minimum temperature:', error);
+  }
+}
+async function findDocumentWithMaxAttribute(collectionName, attribute, id) {
+  try {
+    const collection = db.collection(collectionName);
+    const document = await collection.findOne({ device: id }, { sort: { [attribute]: -1 } });
+    console.log('Document with maximum '+attribute+ " is: "+ document);
+    return document;
+  } catch (error) {
+    console.error('Error finding document with maximum attribute:', error);
+  }
+}
+async function findAllDocumentsWithAttribute(collectionName, id) {
+  try {
+    const collection = db.collection(collectionName);
+    const documents = await collection.find({ device: id }).toArray();
+    console.log('Documents found in mongo:', documents);
+    return documents;
+  } catch (error) {
+    console.error('Error finding documents:', error);
+  }
+}
 
 async function closeConnection() {
   try {
@@ -149,7 +218,7 @@ process.on('SIGINT', () => {
 async function main() {
   var server = new grpc.Server();
   
-  server.addService(senzorsoba.SenzorSoba.service, {GetPodaci: GetPodaci, PutPodaci: PutPodaci, DeletePodaci: DeletePodaci, UpdatePodaci: UpdatePodaci});
+  server.addService(senzorsoba.SenzorSoba.service, {GetMinPodaci: GetMinPodaci, GetPodaci: GetPodaci, PutPodaci: PutPodaci, DeletePodaci: DeletePodaci, UpdatePodaci: UpdatePodaci,  GetMaxPodaci: GetMaxPodaci, GetAvgPodaci: GetAvgPodaci  });
   server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
   console.log('Server running at 0.0.0.0:50051');
   });

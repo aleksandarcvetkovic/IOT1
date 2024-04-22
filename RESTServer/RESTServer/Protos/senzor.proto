@@ -13,17 +13,34 @@ service SenzorSoba {
   rpc PutPodaci(SenzorPodaci) returns (Odgovor) {}
   rpc DeletePodaci(SenzorID) returns (Odgovor) {}
   rpc UpdatePodaci(SenzorPodaci) returns (Odgovor) {}
-
+  rpc GetMinPodaci(Query) returns (Value) {}
+  rpc GetMaxPodaci(Query) returns (Value) {}
+  rpc GetAvgPodaci(Query) returns (Value) {}
 }
-message SenzorID{
+
+message Query
+{
+  string idSenzora = 1;
+  string attribute = 2;
+}
+message Value
+{
+  float value = 1;
+}
+
+
+message SenzorID
+{
   string idSenzora = 1;
 }
 
-message Odgovor{
+message Odgovor
+{
   bool uspesno = 1;
   string poruka = 2;
 }
-message SenzorPodaci {
+message SenzorPodaci 
+{
   string vreme = 1;
   string device = 2;
   float co = 3;

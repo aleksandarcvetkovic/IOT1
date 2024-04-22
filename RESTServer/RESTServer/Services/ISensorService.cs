@@ -12,8 +12,10 @@ namespace RESTServer
         Task<Odgovor> AddSensorData(SenzorPodaci podaci);
         Task<Odgovor> UpdateData(SenzorPodaci podaci);
         Task<Odgovor> DeleteData(string id);
-        //Task<Odgovor> GetAvgTemp(Empty request);
-        //Task<Odgovor> GetAvgCO(Empty request);
-        
+        Task<Value> GetMinPodaci(Query query);
+        Task<Value> GetMaxPodaci(Query query);
+        Task<Value> GetAvgPodaci(Query query);
+       
+
     }
 }
