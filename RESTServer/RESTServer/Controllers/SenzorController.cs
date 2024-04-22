@@ -2,6 +2,7 @@
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RESTServer.Services;
 using System.Diagnostics.Metrics;
 using System.Reflection.Metadata.Ecma335;
 
@@ -18,14 +19,9 @@ namespace RESTServer
         {
             try
             {
-                var channel = GrpcChannel.ForAddress("http://nodejsumrezi:50051");
-                var client = new SenzorSoba.SenzorSobaClient(channel);
-                var reply = await client.GetPodaciAsync(new SenzorID { IdSenzora = idSenzora });
+                var reply = await SensorService.GetInstance().GetSensorData(idSenzora);
                 Console.WriteLine("Odgovor: " + reply);
-                //var reply = await client.PutPodaciAsync(new SenzorPodaci { IdSenzora = "90:0f:00:70:91:0a", Temp = 25.5f });
-                //Console.WriteLine("Odgovor: " + reply.Poruka);
-                ///var reply = await client.DeletePodaciAsync(new SenzorID { IdSenzora = "b8:27:eb:bf:9d:51" });
-                //Console.WriteLine("Odgovor: " + reply.Poruka);
+              
                 return Ok(reply);
             }
             catch
@@ -38,9 +34,7 @@ namespace RESTServer
         {
             try
             {
-                var channel = GrpcChannel.ForAddress("http://nodejsumrezi:50051");
-                var client = new SenzorSoba.SenzorSobaClient(channel);
-                var reply = await client.PutPodaciAsync(value);
+                var reply = await SensorService.GetInstance().AddSensorData(value);
                 Console.WriteLine("Odgovor: " + reply.Poruka);
                 ///var reply = await client.DeletePodaciAsync(new SenzorID { IdSenzora = "b8:27:eb:bf:9d:51" });
                 //Console.WriteLine("Odgovor: " + reply.Poruka);
@@ -57,9 +51,7 @@ namespace RESTServer
         {
             try
             {
-                var channel = GrpcChannel.ForAddress("http://nodejsumrezi:50051");
-                var client = new SenzorSoba.SenzorSobaClient(channel);
-                var reply = await client.UpdatePodaciAsync(sensor);
+                var reply = await SensorService.GetInstance().UpdateData(sensor);
                 Console.WriteLine("Odgovor: " + reply.Poruka);
                 return Ok(reply);
             }
@@ -76,9 +68,7 @@ namespace RESTServer
 
             try
             {
-                var channel = GrpcChannel.ForAddress("http://nodejsumrezi:50051");
-                var client = new SenzorSoba.SenzorSobaClient(channel);
-                var reply = await client.DeletePodaciAsync(new SenzorID { IdSenzora = id });
+                var reply = await SensorService.GetInstance().DeleteData(id);
                 Console.WriteLine("Odgovor: " + reply.Poruka);
                 return Ok(reply);
             }
